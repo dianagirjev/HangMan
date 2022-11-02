@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HangMan</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="container-lg" id="containerId">
+        <h1 class="text-center" id="gameNameHeading">HangMan</h1>
+        <div class="d-grid gap-2 col-4 mx-auto">
+            <button class="btn btn-outline-dark btn-lg" id="startButton">START GAME</button>
+        </div>
+        <h3 class="text-center" id="introduceWordHeading">Introduce one word that should be guessed!</h3>
+        <div class="d-grid gap-2 col-4 mx-auto">
+            <input type="text" class="form-control" id="wordForGuessing">
+            <button class="btn btn-outline-dark btn-lg" id="submitWordButton">Submit Word</button>
+        </div>
+        <h3 class="text-center" id="selectLetterHeading">Please select a letter from the list bellow, in order to guess the Word.</h3>
+    </div>
+
+    <script src="myScript.js"></script>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>

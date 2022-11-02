@@ -1,0 +1,54 @@
+body {
+    text-align: center;
+}
+.container-lg, .btn, .form-control {
+    border: 3px solid rgb(8, 123, 138);
+}
+.container-lg {
+    background-image: url("images/Scene-12.jpg");
+    background-size: cover;
+    height: 95%;
+    border-radius: 30px;
+}
+h1, h3, .btn, .form-control {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(7, 57, 65);
+}
+h1 {
+    font-size: 40px;
+    font-weight: bolder;
+}
+h3, .form-control {
+    font-size: 30px;
+}
+.btn, h3, .form-control {
+    font-weight: bold;
+}
+.form-control {
+    background: transparent;
+    margin-top: 25px;
+}
+.col-12 {
+    width: 4%;
+    height: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: rgb(91, 207, 198);
+    border-radius: 10px;
+    border: 3px solid rgb(8, 123, 138);
+    font-weight: bold;
+    font-size: 25px;
+}
+.imageCanvas {
+    margin: auto;
+    width: 50%;
+    height: 60%;
+    background-image: url("images/2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: 5px solid rgb(7, 57, 65);
+    border-radius: 5%;
+}
+.btn.btn-outline-dark {
+    margin-bottom: 50px;
+}
