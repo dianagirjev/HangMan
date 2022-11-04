@@ -20,37 +20,41 @@ function readSubmittedWord() {
     submitWordButton.addEventListener("click", () => startGame());
 }
 
-let canvas = document.createElement("div");
+let wordForGuessingValue;
 
 function startGame() {
-    let wordForGuessingValue = document.getElementById("wordForGuessing").value;
+    wordForGuessingValue = document.getElementById("wordForGuessing").value;
     if (wordForGuessingValue != "") {
         introduceWordHeading.style.display = "none"; 
         wordForGuessing.style.display = "none";
         submitWordButton.style.display = "none";
-        selectLetterHeading.style.display = "block";
-        let containerId = document.getElementById("containerId");
-        canvas.className = "imageCanvas";
-        createLettersButtons(containerId, wordForGuessingValue);
-        createLettersBoxesAndCanvas(containerId, wordForGuessingValue);
+        selectLetterHeading.style.display = "block";     
+        createLettersButtons();
+        createLettersBoxesAndCanvas();
     } else {
         alert("You should introduce a word in the field bellow.");
     }
 }
 
-function createLettersButtons(containerId, wordForGuessingValue) {
+let containerId = document.getElementById("containerId");
+
+function createLettersButtons() {
     let lettersString = "abcdefghijklmnopqrstuvwxyz";
     for (let i = 0; i < lettersString.length; ++i) {
         let letterButton = document.createElement("button");
         letterButton.className = "btn btn-outline-dark";
         letterButton.innerText = lettersString[i];
         letterButton.id = lettersString[i] + "Button";
-        letterButton.addEventListener("click", () => checkValidityCall(letterButton.id, lettersString[i], wordForGuessingValue))
+        letterButton.addEventListener("click", () => checkValidityCall(letterButton.id, lettersString[i]))
         containerId.appendChild(letterButton);
     }
 }
 
-function createLettersBoxesAndCanvas(containerId, wordForGuessingValue) {
+let canvas;
+
+function createLettersBoxesAndCanvas() {
+    canvas = document.createElement("div");
+    canvas.className = "imageCanvas";
     containerId.appendChild(canvas);
     let divRow = document.createElement("div");
     divRow.className = "row justify-content-md-center";
@@ -67,11 +71,11 @@ let counter = 0;
 let guessedLetters = 0;
 let maxGuesses = 7;
 
-function checkValidityCall(userInput, inputLetter, wordForGuessingValue) {
+function checkValidityCall(userInput, inputLetter) {
     let messageToUserButton = document.createElement("button");
     messageToUserButton.className = "btn btn-outline-dark";
     if (counter < maxGuesses && guessedLetters < wordForGuessingValue.length) {
-        findPressedLetter(userInput, inputLetter, wordForGuessingValue)
+        findPressedLetter(userInput, inputLetter)
     } else if (guessedLetters == wordForGuessingValue.length) {
         canvas.style.display = "none";
         selectLetterHeading.style.display = "none";
@@ -80,17 +84,24 @@ function checkValidityCall(userInput, inputLetter, wordForGuessingValue) {
         containerId.appendChild(messageToUserButton);
     } else {
         selectLetterHeading.style.display = "none";
+        for (let i = 0; i < wordForGuessingValue.length; ++i) {
+            let letterBox = document.getElementById(wordForGuessingValue[i] + i + "Box");
+            letterBox.style.display = "none";
+        }
         messageToUserButton.innerText = "I am sorry you lost the game, the word for guessing was \"" + wordForGuessingValue + "\". Click HERE to play one more time.";
         messageToUserButton.addEventListener("click", () => window.location.reload());
         containerId.appendChild(messageToUserButton);
     }
 }
 
-function findPressedLetter(userInput, inputLetter, wordForGuessingValue) {
+function findPressedLetter(userInput, inputLetter) {
     let pressedButton = document.getElementById(userInput);
     pressedButton.style.display = "none";
     let found = 0;
     for (let i = 0; i < wordForGuessingValue.length; ++i) {
+        if ('A' <= wordForGuessingValue[i] && wordForGuessingValue[i] <= 'Z') {
+            inputLetter = inputLetter.toUpperCase();
+        }
         if (inputLetter == wordForGuessingValue[i]) {
             document.getElementById(inputLetter + i + "Box").innerText = inputLetter;
             ++guessedLetters;
@@ -101,9 +112,8 @@ function findPressedLetter(userInput, inputLetter, wordForGuessingValue) {
         }
     }
     if (counter == maxGuesses || guessedLetters == wordForGuessingValue.length) {
-        checkValidityCall(userInput, inputLetter, wordForGuessingValue);
+        checkValidityCall(userInput, inputLetter);
     }
 }
-
 
 startIntroPage();

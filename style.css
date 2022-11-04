@@ -1,7 +1,7 @@
 body {
     text-align: center;
 }
-.container-lg, .btn, .form-control {
+.container-lg, .btn, .form-control, .col-12 {
     border: 3px solid rgb(8, 123, 138);
 }
 .container-lg {
@@ -21,7 +21,7 @@ h1 {
 h3, .form-control {
     font-size: 30px;
 }
-.btn, h3, .form-control {
+.btn, h3, .form-control, .col-12 {
     font-weight: bold;
 }
 .form-control {
@@ -35,8 +35,6 @@ h3, .form-control {
     margin-bottom: 30px;
     background-color: rgb(91, 207, 198);
     border-radius: 10px;
-    border: 3px solid rgb(8, 123, 138);
-    font-weight: bold;
     font-size: 25px;
 }
 .imageCanvas {
@@ -50,5 +48,6 @@ h3, .form-control {
     border-radius: 5%;
 }
 .btn.btn-outline-dark {
-    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
