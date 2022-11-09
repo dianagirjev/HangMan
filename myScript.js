@@ -5,18 +5,12 @@ let selectLetterHeading = document.getElementById("selectLetterHeading");
 let startButton = document.getElementById("startButton");
 
 function startIntroPage() {
-    introduceWordHeading.style.display = "none";
-    wordForGuessing.style.display = "none";
-    submitWordButton.style.display = "none";
-    selectLetterHeading.style.display = "none";
+    togglePageVisibility("startIntroPage");
     startButton.addEventListener("click", () => readSubmittedWord());
 }
 
 function readSubmittedWord() {
-    startButton.style.display = "none";
-    introduceWordHeading.style.display = "block";
-    wordForGuessing.style.display = "block";
-    submitWordButton.style.display = "block";
+    togglePageVisibility("readSubmittedWord");
     submitWordButton.addEventListener("click", () => startGame());
 }
 
@@ -25,10 +19,7 @@ let wordForGuessingValue;
 function startGame() {
     wordForGuessingValue = document.getElementById("wordForGuessing").value;
     if (wordForGuessingValue != "") {
-        introduceWordHeading.style.display = "none"; 
-        wordForGuessing.style.display = "none";
-        submitWordButton.style.display = "none";
-        selectLetterHeading.style.display = "block";     
+        togglePageVisibility("startGame");
         createLettersButtons();
         createLettersBoxesAndCanvas();
     } else {
@@ -45,7 +36,11 @@ function createLettersButtons() {
         letterButton.className = "btn btn-outline-dark";
         letterButton.innerText = lettersString[i];
         letterButton.id = lettersString[i] + "Button";
-        letterButton.addEventListener("click", () => checkValidityCall(letterButton.id, lettersString[i]))
+        letterButton.addEventListener("click", () => {if (checkEnoughLives()) {
+                                                          findPressedLetter(letterButton.id, lettersString[i])
+                                                      } else {
+                                                          openWonOrLostGamePage()
+                                                      }})
         containerId.appendChild(letterButton);
     }
 }
@@ -71,27 +66,11 @@ let counter = 0;
 let guessedLetters = 0;
 let maxGuesses = 7;
 
-function checkValidityCall(userInput, inputLetter) {
-    let messageToUserButton = document.createElement("button");
-    messageToUserButton.className = "btn btn-outline-dark";
+function checkEnoughLives() {
     if (counter < maxGuesses && guessedLetters < wordForGuessingValue.length) {
-        findPressedLetter(userInput, inputLetter)
-    } else if (guessedLetters == wordForGuessingValue.length) {
-        canvas.style.display = "none";
-        selectLetterHeading.style.display = "none";
-        messageToUserButton.innerText = "Contratulation you won the game!!! Click HERE to play one more time.";
-        messageToUserButton.addEventListener("click", () => window.location.reload());
-        containerId.appendChild(messageToUserButton);
-    } else {
-        selectLetterHeading.style.display = "none";
-        for (let i = 0; i < wordForGuessingValue.length; ++i) {
-            let letterBox = document.getElementById(wordForGuessingValue[i] + i + "Box");
-            letterBox.style.display = "none";
-        }
-        messageToUserButton.innerText = "I am sorry you lost the game, the word for guessing was \"" + wordForGuessingValue + "\". Click HERE to play one more time.";
-        messageToUserButton.addEventListener("click", () => window.location.reload());
-        containerId.appendChild(messageToUserButton);
-    }
+        return true;
+    } 
+    return false;
 }
 
 function findPressedLetter(userInput, inputLetter) {
@@ -112,7 +91,61 @@ function findPressedLetter(userInput, inputLetter) {
         }
     }
     if (counter == maxGuesses || guessedLetters == wordForGuessingValue.length) {
-        checkValidityCall(userInput, inputLetter);
+        openWonOrLostGamePage();
+    }
+}
+
+let finish = false;
+
+function openWonOrLostGamePage() {
+    let messageToUserButton = document.createElement("button");
+    messageToUserButton.className = "btn btn-outline-dark";
+    if (guessedLetters == wordForGuessingValue.length && finish == false) {
+        togglePageVisibility("wonGamePage");
+        messageToUserButton.innerText = "Contratulation you won the game!!! Click HERE to play one more time.";
+        messageToUserButton.addEventListener("click", () => window.location.reload());
+        containerId.appendChild(messageToUserButton);
+        finish = true;
+    } else if (finish == false) {
+        togglePageVisibility("lostGamePage");
+        for (let i = 0; i < wordForGuessingValue.length; ++i) {
+            let letterBox = document.getElementById(wordForGuessingValue[i] + i + "Box");
+            letterBox.style.display = "none";
+        }
+        messageToUserButton.innerText = "I am sorry you lost the game, the word for guessing was \"" + wordForGuessingValue + "\". Click HERE to play one more time.";
+        messageToUserButton.addEventListener("click", () => window.location.reload());
+        containerId.appendChild(messageToUserButton);
+        finish = true;
+    }
+}
+
+function togglePageVisibility(pageName) {
+    switch (pageName) {
+        case "startIntroPage":
+            introduceWordHeading.style.display = "none";
+            wordForGuessing.style.display = "none";
+            submitWordButton.style.display = "none";
+            selectLetterHeading.style.display = "none";
+            break;
+        case "readSubmittedWord":
+            startButton.style.display = "none";
+            introduceWordHeading.style.display = "block";
+            wordForGuessing.style.display = "block";
+            submitWordButton.style.display = "block";
+            break;
+        case "startGame":
+            introduceWordHeading.style.display = "none"; 
+            wordForGuessing.style.display = "none";
+            submitWordButton.style.display = "none";
+            selectLetterHeading.style.display = "block";
+            break;
+        case "wonGamePage":
+            canvas.style.display = "none";
+            selectLetterHeading.style.display = "none";
+            break;
+        case "lostGamePage":
+            selectLetterHeading.style.display = "none";
+            break;
     }
 }
 
